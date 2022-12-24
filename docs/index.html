@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LINEのトークを分析するやつ</title>
+    <link rel="stylesheet" href="./styles.css"/>
+  </head>
+
+  <body>
+    <h1>LINEのトークを分析するやつ</h1>
+    <div>
+      <label for="file">トーク履歴ファイルを選択してください</label>
+      <input type="file" id="file" name="file" accept=".txt"/>
+    </div>
+    <div style="width: 800px;">
+      <h3>ユーザ別の総通数</h3>
+      <canvas id="chart-sends-sum"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
