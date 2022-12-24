@@ -5,8 +5,3 @@ label {
 .chart-pie {
   width: 400px;
 }
-
-.chart-bar {
-  position: relative;
-  overflow-x: scroll;
-}

@@ -1,4 +1,7 @@
-export function analyze(talks) {
+import { parse } from "./line2json.js";
+
+export function analyze(text) {
+  const talks = parse(text);
   const data = new Map();
 
   for (const { date, time, user, message } of talks) {

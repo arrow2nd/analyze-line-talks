@@ -1,4 +1,3 @@
-import { parse } from "./line2json.js";
 import { analyze } from "./analyze.js";
 
 const fileInput = document.getElementById("file");
@@ -18,48 +17,55 @@ fileInput.addEventListener("change", (e) => {
       return;
     }
 
-    const talks = parse(text);
-    const analyzeData = analyze(talks);
+    const data = analyze(text);
+    const userNames = Array.from(data.keys());
+    const values = Array.from(data.values());
 
-    createTotalCountChart(analyzeData);
-    createTotalCharsChart(analyzeData);
-    createByDateChart(analyzeData);
+    createPieChart(
+      "chart-total-count",
+      userNames,
+      values.map(({ count }) => count),
+    );
+
+    createPieChart(
+      "chart-total-chars",
+      userNames,
+      values.map(({ chars }) => chars),
+    );
+
+    createBarChart(data, "chart-bydate", "byDate");
   };
 
   reader.readAsText(file);
 });
 
-function createTotalCountChart(d) {
-  const ctx = document.getElementById("chart-total-count");
-  const data = Array.from(d.values()).map(({ count }) => count);
+/**
+ * @param {string} id ID
+ * @param {string[]} labels チャートのラベル
+ * @param {number[]} data チャートのデータ
+ */
+function createPieChart(id, labels, data) {
+  const ctx = document.getElementById(id);
 
   new Chart(ctx, {
     type: "pie",
     data: {
-      labels: Array.from(d.keys()),
+      labels,
       datasets: [{ label: "通数", data }],
     },
   });
 }
 
-function createTotalCharsChart(d) {
-  const ctx = document.getElementById("chart-total-chars");
-  const data = Array.from(d.values()).map((e) => e.chars);
-
-  new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: Array.from(d.keys()),
-      datasets: [{ label: "通数", data }],
-    },
-  });
-}
-
-function createByDateChart(d) {
-  // すべてのユーザの日付を重複させずにマージする
+/**
+ * @param {any} d トーク履歴分析結果
+ * @param {string} ID
+ * @param {string} 表示するデータのフィールド名
+ */
+function createBarChart(d, id, fieldName) {
+  // キーになる値を重複させずにマージする
   let dateLabels = [];
   for (const v of d.values()) {
-    dateLabels = Array.from(new Set([...dateLabels, ...v.byDate.keys()]));
+    dateLabels = Array.from(new Set([...dateLabels, ...v[fieldName].keys()]));
   }
 
   const datasets = [];
@@ -67,16 +73,14 @@ function createByDateChart(d) {
     const data = [];
 
     for (const date of dateLabels) {
-      const count = value.byDate.get(date) ?? 0;
+      const count = value[fieldName].get(date) ?? 0;
       data.push(count);
     }
 
     datasets.push({ label, data });
   }
 
-  const ctx = document.getElementById("chart-bydate");
-  ctx.style.width = `${dateLabels.length * 12 * datasets.length}px`;
-
+  const ctx = document.getElementById(id);
   new Chart(ctx, {
     type: "bar",
     data: {
