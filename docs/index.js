@@ -1,4 +1,5 @@
 import { parse } from "./line2json.js";
+import { analyze } from "./analyze.js";
 
 const fileInput = document.getElementById("file");
 
@@ -19,36 +20,8 @@ fileInput.addEventListener("change", (e) => {
 
     const talks = parse(text);
 
-    createTotalSendChart(talks);
+    console.log(analyze(talks));
   };
 
   reader.readAsText(file);
 });
-
-function createTotalSendChart(talks) {
-  const labels = new Map();
-  for (const { user } of talks) {
-    const count = labels.get(user) ?? 0;
-    labels.set(user, count + 1);
-  }
-
-  const ctx = document.getElementById("chart-sends-sum");
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: Array.from(labels.keys()),
-      datasets: [{
-        label: "通数",
-        data: Array.from(labels.values()),
-        borderWidth: 1,
-      }],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-}
