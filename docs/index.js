@@ -10,14 +10,14 @@ fileInput.addEventListener("change", (e) => {
   }
 
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     const text = e.target?.result;
     if (typeof text !== "string") {
       console.error("Empty");
       return;
     }
 
-    const data = analyze(text);
+    const data = await analyze(text);
     const userNames = Array.from(data.keys());
     const values = Array.from(data.values());
 
@@ -37,6 +37,9 @@ fileInput.addEventListener("change", (e) => {
 
     createBarChart(data, "chart-bydate", "byDate");
     createBarChart(data, "chart-bytime", "byTime");
+
+    createBarChart(data, "chart-sexual-words", "sexualWords");
+    createBarChart(data, "chart-offensive-words", "offensiveWords");
   };
 
   reader.readAsText(file);

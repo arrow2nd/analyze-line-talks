@@ -1,6 +1,11 @@
 import { parse } from "./line2json.js";
 
-export function analyze(text) {
+export async function analyze(text) {
+  const inappropriateWords = {
+    sexual: await fetchInappropriateWords("Sexual"),
+    offensive: await fetchInappropriateWords("Offensive"),
+  };
+
   const talks = parse(text);
   const data = new Map();
 
@@ -10,7 +15,8 @@ export function analyze(text) {
       data.set(user, {
         count: 0,
         chars: 0,
-        wordMatches: new Map(),
+        sexualWords: new Map(),
+        offensiveWords: new Map(),
         byDate: new Map(),
         byTime: new Map(),
       });
@@ -32,7 +38,29 @@ export function analyze(text) {
     const hour = time.slice(0, 2);
     const byTimeCount = userData.byTime.get(hour) ?? 0;
     userData.byTime.set(hour, byTimeCount + 1);
+
+    // 不適切ワードのカウント
+    for (const key of Object.keys(inappropriateWords)) {
+      for (const word of inappropriateWords[key]) {
+        if (!message.includes(word)) continue;
+
+        const count = userData[`${key}Words`].get(word) ?? 0;
+        userData[`${key}Words`].set(word, count + 1);
+      }
+    }
   }
 
   return data;
+}
+
+/**
+ * @param {string} fileName ファイル名
+ */
+async function fetchInappropriateWords(fileName) {
+  const res = await fetch(
+    `https://raw.githubusercontent.com/MosasoM/inappropriate-words-ja/master/${fileName}.txt`,
+  );
+
+  const text = await res.text();
+  return text.split("\n").map((e) => e.trim()).filter((e) => e !== "");
 }
