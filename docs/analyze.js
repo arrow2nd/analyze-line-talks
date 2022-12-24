@@ -1,9 +1,14 @@
 import { parse } from "./line2json.js";
 
 export async function analyze(text) {
+  const d = await Promise.all([
+    fetchInappropriateWords("Sexual"),
+    fetchInappropriateWords("Offensive"),
+  ]);
+
   const inappropriateWords = {
-    sexual: await fetchInappropriateWords("Sexual"),
-    offensive: await fetchInappropriateWords("Offensive"),
+    sexual: d[0],
+    offensive: d[1],
   };
 
   const talks = parse(text);

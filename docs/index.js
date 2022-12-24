@@ -10,6 +10,7 @@ fileInput.addEventListener("change", (e) => {
   }
 
   const reader = new FileReader();
+
   reader.onload = async (e) => {
     const text = e.target?.result;
     if (typeof text !== "string") {
