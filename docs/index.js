@@ -34,6 +34,7 @@ fileInput.addEventListener("change", (e) => {
     );
 
     createBarChart(data, "chart-bydate", "byDate");
+    createBarChart(data, "chart-bytime", "byTime");
   };
 
   reader.readAsText(file);
