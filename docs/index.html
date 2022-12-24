@@ -11,11 +11,21 @@
       <label for="file">トーク履歴ファイルを選択してください</label>
       <input type="file" id="file" name="file" accept=".txt"/>
     </div>
-    <div style="width: 800px;">
+    <div class="chart-pie">
       <h3>ユーザ別の総通数</h3>
-      <canvas id="chart-sends-sum"></canvas>
+      <canvas id="chart-total-count"></canvas>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="chart-pie">
+      <h3>ユーザ別の総文字数</h3>
+      <canvas id="chart-total-chars"></canvas>
+    </div>
+    <div class="chart-bar">
+      <h3>日付別の通数</h3>
+      <canvas id="chart-bydate"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0/dist/chartjs-plugin-zoom.min.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
