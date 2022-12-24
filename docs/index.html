@@ -5,19 +5,21 @@
     <link rel="stylesheet" href="./styles.css"/>
   </head>
 
-  <body>
+  <body class="container">
     <h1>LINEのトークを分析するやつ</h1>
     <div>
       <label for="file">トーク履歴ファイルを選択してください</label>
       <input type="file" id="file" name="file" accept=".txt"/>
     </div>
-    <div class="chart-pie">
-      <h3>ユーザ別の総通数</h3>
-      <canvas id="chart-total-count"></canvas>
-    </div>
-    <div class="chart-pie">
-      <h3>ユーザ別の総文字数</h3>
-      <canvas id="chart-total-chars"></canvas>
+    <div class="chart-pie-area">
+      <div class="chart-pie">
+        <h3>ユーザ別の総通数</h3>
+        <canvas id="chart-total-count"></canvas>
+      </div>
+      <div class="chart-pie">
+        <h3>ユーザ別の総文字数</h3>
+        <canvas id="chart-total-chars"></canvas>
+      </div>
     </div>
     <div>
       <h3>日付別の通数</h3>

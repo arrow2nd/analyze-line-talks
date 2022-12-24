@@ -23,12 +23,14 @@ fileInput.addEventListener("change", (e) => {
 
     createPieChart(
       "chart-total-count",
+      "通数",
       userNames,
       values.map(({ count }) => count),
     );
 
     createPieChart(
       "chart-total-chars",
+      "文字数",
       userNames,
       values.map(({ chars }) => chars),
     );
@@ -42,17 +44,18 @@ fileInput.addEventListener("change", (e) => {
 
 /**
  * @param {string} id ID
+ * @param {string} label グラフのラベル
  * @param {string[]} labels チャートのラベル
  * @param {number[]} data チャートのデータ
  */
-function createPieChart(id, labels, data) {
+function createPieChart(id, label, labels, data) {
   const ctx = document.getElementById(id);
 
   new Chart(ctx, {
     type: "pie",
     data: {
       labels,
-      datasets: [{ label: "通数", data }],
+      datasets: [{ label, data }],
     },
   });
 }
