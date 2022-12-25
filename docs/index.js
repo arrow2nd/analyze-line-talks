@@ -5,7 +5,7 @@ let chartObjects = [];
 document.getElementById("file").addEventListener("change", (e) => {
   const file = e.target.files?.[0];
   if (!file) {
-    console.error("Load failed");
+    alert("ファイルの読み込みに失敗しました");
     return;
   }
 
@@ -14,7 +14,7 @@ document.getElementById("file").addEventListener("change", (e) => {
   reader.onload = async (e) => {
     const text = e.target?.result;
     if (typeof text !== "string") {
-      console.error("Empty");
+      alert("ファイルの中身が空です");
       return;
     }
 
