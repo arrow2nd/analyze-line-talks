@@ -1,8 +1,8 @@
 import { analyze } from "./analyze.js";
 
-const fileInput = document.getElementById("file");
+let chartObjects = [];
 
-fileInput.addEventListener("change", (e) => {
+document.getElementById("file").addEventListener("change", (e) => {
   const file = e.target.files?.[0];
   if (!file) {
     console.error("Load failed");
@@ -21,6 +21,8 @@ fileInput.addEventListener("change", (e) => {
     const data = await analyze(text);
     const userNames = Array.from(data.keys());
     const values = Array.from(data.values());
+
+    destroyCharts();
 
     createPieChart(
       "chart-total-count",
@@ -55,13 +57,15 @@ fileInput.addEventListener("change", (e) => {
 function createPieChart(id, label, labels, data) {
   const ctx = document.getElementById(id);
 
-  new Chart(ctx, {
+  const c = new Chart(ctx, {
     type: "pie",
     data: {
       labels,
       datasets: [{ label, data }],
     },
   });
+
+  chartObjects.push(c);
 }
 
 /**
@@ -89,7 +93,7 @@ function createBarChart(d, id, fieldName) {
   }
 
   const ctx = document.getElementById(id);
-  new Chart(ctx, {
+  const c = new Chart(ctx, {
     type: "bar",
     data: {
       labels: dateLabels.sort((a, b) => a > b),
@@ -108,4 +112,14 @@ function createBarChart(d, id, fieldName) {
       },
     },
   });
+
+  chartObjects.push(c);
+}
+
+function destroyCharts() {
+  for (const c of chartObjects) {
+    c.destroy();
+  }
+
+  chartObjects = [];
 }

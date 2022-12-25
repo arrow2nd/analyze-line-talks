@@ -13,9 +13,15 @@ label {
   display: block;
 }
 
+.source {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .chart-pie-area {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .chart-pie {
