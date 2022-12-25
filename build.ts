@@ -17,5 +17,5 @@ const { code } = await minify(result.code, { mangle: true });
 if (code) {
   Deno.writeTextFileSync("./docs/line2json.js", code);
 } else {
-  console.error("Build faild");
+  console.error("Build failed");
 }

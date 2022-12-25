@@ -5,7 +5,7 @@ const fileInput = document.getElementById("file");
 fileInput.addEventListener("change", (e) => {
   const file = e.target.files?.[0];
   if (!file) {
-    console.error("Load faild");
+    console.error("Load failed");
     return;
   }
 
